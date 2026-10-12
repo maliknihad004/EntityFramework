@@ -4,8 +4,9 @@ using System.ComponentModel.DataAnnotations;
 public class Coach
 {
     [Key]
-    public int id { get; set; }
-    public string name { get; set; } = null!;
+    public int Id { get; set; }
+    public string Name { get; set; } = null!;
 
-public ICollection<TrainingSession> Sessions { get; set; }
-    = new List<TrainingSession>();}
+    public ICollection<TrainingSession> Sessions { get; set; }
+        = new List<TrainingSession>();
+}
