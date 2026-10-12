@@ -7,14 +7,15 @@ using Microsoft.EntityFrameworkCore;
 public class TrainingSession
 {
     [Key]
-    public int id { get; set; }
+    public int Id { get; set; }
     public string Title { get; set; } = null!;
-    public DateTime date { get; set; }
+    public DateTime Date { get; set; }
 
-    public int coachId { get; set; }
+    public int CoachId { get; set; }
 
-    [ForeignKey("coachId")]
-    public Coach coach { get; set; } = null!;
+    [ForeignKey("CoachId")]
+    public Coach Coach { get; set; } = null!;
 
-public ICollection<TrainingSessionPlayers> SessionParticipants { get; set; }
-    = new List<TrainingSessionPlayers>();}
+    public ICollection<TrainingSessionPlayers> SessionParticipants { get; set; }
+        = new List<TrainingSessionPlayers>();
+}
