@@ -6,14 +6,14 @@ using Microsoft.EntityFrameworkCore;
 public class TrainingSessionPlayers
 {
     [Key]
-    public int id { get; set; }
-    public int trainingSessionId { get; set; }
-    
-    [ForeignKey("trainingSessionId")]
-    public TrainingSession trainingSession { get; set; } = null!;
+    public int Id { get; set; }
+    public int TrainingSessionId { get; set; }
 
-    public int playerId { get; set; }
+    [ForeignKey("TrainingSessionId")]
+    public TrainingSession TrainingSession { get; set; } = null!;
 
-    [ForeignKey("playerId")]
-    public Player player { get; set; } = null!;
+    public int PlayerId { get; set; }
+
+    [ForeignKey("PlayerId")]
+    public Player Player { get; set; } = null!;
 }
