@@ -23,120 +23,121 @@ namespace FootballTrainingManagement.Migrations
 
             modelBuilder.Entity("Coach", b =>
                 {
-                    b.Property<int>("id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("name")
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.HasKey("id");
+                    b.HasKey("Id");
 
                     b.ToTable("Coaches");
                 });
 
             modelBuilder.Entity("Player", b =>
                 {
-                    b.Property<int>("id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("age")
+                    b.Property<int>("Age")
                         .HasColumnType("integer");
 
-                    b.Property<string>("name")
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.HasKey("id");
+                    b.HasKey("Id");
 
                     b.ToTable("Players");
                 });
 
             modelBuilder.Entity("TrainingSession", b =>
                 {
-                    b.Property<int>("id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CoachId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("coachId")
-                        .HasColumnType("integer");
+                    b.HasKey("Id");
 
-                    b.Property<DateTime>("date")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.HasKey("id");
+                    b.HasIndex("CoachId");
 
                     b.HasIndex("Title")
                         .IsUnique();
-
-                    b.HasIndex("coachId");
 
                     b.ToTable("TrainingSessions");
                 });
 
             modelBuilder.Entity("TrainingSessionPlayers", b =>
                 {
-                    b.Property<int>("id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("playerId")
+                    b.Property<int>("PlayerId")
                         .HasColumnType("integer");
 
-                    b.Property<int>("trainingSessionId")
+                    b.Property<int>("TrainingSessionId")
                         .HasColumnType("integer");
 
-                    b.HasKey("id");
+                    b.HasKey("Id");
 
-                    b.HasIndex("playerId");
+                    b.HasIndex("PlayerId");
 
-                    b.HasIndex("trainingSessionId");
+                    b.HasIndex("TrainingSessionId", "PlayerId")
+                        .IsUnique();
 
                     b.ToTable("TrainingSessionPlayers");
                 });
 
             modelBuilder.Entity("TrainingSession", b =>
                 {
-                    b.HasOne("Coach", "coach")
+                    b.HasOne("Coach", "Coach")
                         .WithMany("Sessions")
-                        .HasForeignKey("coachId")
+                        .HasForeignKey("CoachId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("coach");
+                    b.Navigation("Coach");
                 });
 
             modelBuilder.Entity("TrainingSessionPlayers", b =>
                 {
-                    b.HasOne("Player", "player")
+                    b.HasOne("Player", "Player")
                         .WithMany("SessionParticipants")
-                        .HasForeignKey("playerId")
+                        .HasForeignKey("PlayerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("TrainingSession", "trainingSession")
+                    b.HasOne("TrainingSession", "TrainingSession")
                         .WithMany("SessionParticipants")
-                        .HasForeignKey("trainingSessionId")
+                        .HasForeignKey("TrainingSessionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("player");
+                    b.Navigation("Player");
 
-                    b.Navigation("trainingSession");
+                    b.Navigation("TrainingSession");
                 });
 
             modelBuilder.Entity("Coach", b =>

@@ -1,6 +1,9 @@
+
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
 
+[Index(nameof(TrainingSessionId), nameof(PlayerId), IsUnique = true)]
 public class TrainingSessionPlayers
 {
     [Key]
@@ -8,11 +11,11 @@ public class TrainingSessionPlayers
 
     public int TrainingSessionId { get; set; }
 
-    [ForeignKey(nameof(TrainingSessionId))]
+    [ForeignKey("TrainingSessionId")]
     public TrainingSession TrainingSession { get; set; } = null!;
 
     public int PlayerId { get; set; }
 
-    [ForeignKey(nameof(PlayerId))]
+    [ForeignKey("PlayerId")]
     public Player Player { get; set; } = null!;
 }
