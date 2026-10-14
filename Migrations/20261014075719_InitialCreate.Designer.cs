@@ -11,7 +11,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace FootballTrainingManagement.Migrations
 {
     [DbContext(typeof(FootballDbContext))]
-    [Migration("20261012101551_InitialCreate")]
+    [Migration("20261014075719_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
