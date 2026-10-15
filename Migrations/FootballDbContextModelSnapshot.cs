@@ -33,6 +33,12 @@ namespace FootballTrainingManagement.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<decimal>("Salary")
+                        .ValueGeneratedOnAdd()
+                        .HasPrecision(18, 2)
+                        .HasColumnType("numeric(18,2)")
+                        .HasDefaultValue(1500m);
+
                     b.HasKey("Id");
 
                     b.ToTable("Coaches");

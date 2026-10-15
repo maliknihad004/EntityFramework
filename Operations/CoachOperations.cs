@@ -1,120 +1,114 @@
+
 using Microsoft.EntityFrameworkCore;
 
-public class PlayerService
+public class CoachService
 {
-    public async Task AddPlayer()
+    public async Task AddCoach()
     {
         using var context = new FootballDbContext();
 
-        Console.Write("Enter Player Name: ");
+        Console.Write("Enter Coach Name: ");
         string? name = Console.ReadLine();
 
         if (string.IsNullOrWhiteSpace(name))
         {
-            Console.WriteLine("Invalid player name");
+            Console.WriteLine("Invalid coach name");
             return;
         }
 
-        Console.Write("Enter Player Age: ");
-        if (!int.TryParse(Console.ReadLine(), out int age) || age <= 0)
+        Coach coach = new Coach
         {
-            Console.WriteLine("Invalid player age");
-            return;
-        }
-
-        Player player = new Player
-        {
-            Name = name.Trim(),
-            Age = age
+            Name = name.Trim()
         };
 
-        context.Players.Add(player);
+        context.Coaches.Add(coach);
         await context.SaveChangesAsync();
 
-        Console.WriteLine($"Player {player.Name} added successfully! ID: {player.Id}");
+        Console.WriteLine($"Coach {coach.Name} added successfully! ID: {coach.Id}, Salary: {coach.Salary}");
     }
 
-    public async Task DisplayPlayers()
+    public async Task DisplayCoaches()
     {
         using var context = new FootballDbContext();
 
-        var players = await context.Players.ToListAsync();
+        var coaches = await context.Coaches.ToListAsync();
 
-        foreach (var p in players)
+        foreach (var c in coaches)
         {
-            Console.WriteLine($"{p.Id} - {p.Name} - {p.Age}");
+            Console.WriteLine($"{c.Id} - {c.Name} - Salary: {c.Salary}");
         }
     }
 
-    public async Task FindPlayer(int playerId)
+    public async Task FindCoach(int coachId)
     {
         using var context = new FootballDbContext();
 
-        Player? foundPlayer = await context.Players.FindAsync(playerId);
+        Coach? foundCoach = await context.Coaches.FindAsync(coachId);
 
-        if (foundPlayer != null)
+        if (foundCoach != null)
         {
-            Console.WriteLine($"{foundPlayer.Id} - {foundPlayer.Name} - {foundPlayer.Age}");
+            Console.WriteLine($"{foundCoach.Id} - {foundCoach.Name} - Salary: {foundCoach.Salary}");
         }
         else
         {
-            Console.WriteLine("Player not found");
+            Console.WriteLine("Coach not found");
         }
     }
 
-    public async Task UpdatePlayer(int playerId)
+   
+public async Task UpdateCoach(int coachId)
+{
+    using var context = new FootballDbContext();
+
+    CoachRepository repository = new CoachRepository(context);
+
+    Coach? updatedCoach = await repository.FindCoach(coachId);
+
+    if (updatedCoach != null)
+    {
+        Console.Write("Enter New Coach Name: ");
+        string? name = Console.ReadLine();
+
+        if (string.IsNullOrWhiteSpace(name))
+        {
+            Console.WriteLine("Invalid coach name");
+            return;
+        }
+
+        Console.Write("Enter New Coach Salary: ");
+        if (!decimal.TryParse(Console.ReadLine(), out decimal salary) || salary <= 0)
+        {
+            Console.WriteLine("Invalid coach salary");
+            return;
+        }
+
+        await repository.UpdateCoach(updatedCoach, name.Trim(), salary);
+
+        Console.WriteLine("Coach updated successfully");
+    }
+    else
+    {
+        Console.WriteLine("Coach not found");
+    }
+}
+
+
+    public async Task DeleteCoach(int coachId)
     {
         using var context = new FootballDbContext();
 
-        Player? updatedPlayer = await context.Players.FindAsync(playerId);
+        Coach? deletedCoach = await context.Coaches.FindAsync(coachId);
 
-        if (updatedPlayer != null)
+        if (deletedCoach != null)
         {
-            Console.Write("Enter New Player Name: ");
-            string? name = Console.ReadLine();
-
-            if (string.IsNullOrWhiteSpace(name))
-            {
-                Console.WriteLine("Invalid player name");
-                return;
-            }
-
-            Console.Write("Enter New Player Age: ");
-            if (!int.TryParse(Console.ReadLine(), out int age) || age <= 0)
-            {
-                Console.WriteLine("Invalid player age");
-                return;
-            }
-
-            updatedPlayer.Name = name.Trim();
-            updatedPlayer.Age = age;
-
+            context.Coaches.Remove(deletedCoach);
             await context.SaveChangesAsync();
 
-            Console.WriteLine("Player updated successfully");
+            Console.WriteLine("Coach deleted successfully");
         }
         else
         {
-            Console.WriteLine("Player not found");
-        }
-    }
-
-    public async Task DeletePlayer(int playerId)
-    {
-        using var context = new FootballDbContext();
-
-        Player? deletedPlayer = await context.Players.FindAsync(playerId);
-
-        if (deletedPlayer != null)
-        {
-            context.Players.Remove(deletedPlayer);
-            await context.SaveChangesAsync();
-
-            Console.WriteLine("Player deleted successfully");
-        }
-        else
-        {
-            Console.WriteLine("Player not found");
+            Console.WriteLine("Coach not found");
         }
     }
 }

@@ -22,4 +22,16 @@ public class FootballDbContext : DbContext
 
         optionsBuilder.UseNpgsql(connectionString);
     }
+
+    protected override void OnModelCreating (ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<Coach>()
+        .Property(coach => coach.Salary)
+        .HasPrecision(18, 2)
+        .HasDefaultValue(1500m);
+        
+    }
+
+
+
 }
