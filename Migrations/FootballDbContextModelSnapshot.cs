@@ -41,7 +41,7 @@ namespace FootballTrainingManagement.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Coaches");
+                    b.ToTable("Coaches", (string)null);
                 });
 
             modelBuilder.Entity("Player", b =>
@@ -61,7 +61,7 @@ namespace FootballTrainingManagement.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Players");
+                    b.ToTable("Players", (string)null);
                 });
 
             modelBuilder.Entity("TrainingSession", b =>
@@ -89,7 +89,7 @@ namespace FootballTrainingManagement.Migrations
                     b.HasIndex("Title")
                         .IsUnique();
 
-                    b.ToTable("TrainingSessions");
+                    b.ToTable("TrainingSessions", (string)null);
                 });
 
             modelBuilder.Entity("TrainingSessionPlayers", b =>
@@ -113,7 +113,7 @@ namespace FootballTrainingManagement.Migrations
                     b.HasIndex("TrainingSessionId", "PlayerId")
                         .IsUnique();
 
-                    b.ToTable("TrainingSessionPlayers");
+                    b.ToTable("TrainingSessionPlayers", (string)null);
                 });
 
             modelBuilder.Entity("TrainingSession", b =>

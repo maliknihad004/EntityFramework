@@ -11,8 +11,8 @@ namespace FootballTrainingManagement.Migrations
         {
             migrationBuilder.UpdateData(
                 table: "Coaches",
-                keyColumn: "Id",
-                keyValue: 8,
+                keyColumn: "Name",
+                keyValue: "Zaina",
                 column: "Name",
                 value: "Zain"
             );
@@ -22,8 +22,8 @@ namespace FootballTrainingManagement.Migrations
         {
             migrationBuilder.UpdateData(
                 table: "Coaches",
-                keyColumn: "Id",
-                keyValue: 8,
+                keyColumn: "Name",
+                keyValue: "Zain",
                 column: "Name",
                 value: "Zaina"
             );
